@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { supabase, type Project } from '@/lib/supabase'
+import TweetDisplay from './TweetDisplay'
 
 export default function ProjectList() {
   const [projects, setProjects] = useState<Project[]>([])
@@ -114,6 +115,12 @@ export default function ProjectList() {
                 Remove
               </button>
             </div>
+            <TweetDisplay
+              projectId={project.id}
+              projectName={project.name}
+              symbol={project.symbol}
+              twitterHandle={project.twitter_handle}
+            />
           </div>
         ))}
       </div>
