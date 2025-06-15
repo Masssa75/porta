@@ -34,8 +34,7 @@ serve(async (req) => {
     // Get search parameters from request
     const { projectId, projectName, symbol, twitterHandle } = await req.json();
     
-    console.log(`Searching for project: ${projectName} (${symbol})`)
-
+    console.log(`Searching for project: ${projectName} (${symbol})`);
     
     // Build search queries - prioritize specific searches
     const searchQueries = [];
@@ -109,29 +108,22 @@ serve(async (req) => {
     for (let i = 0; i < Math.min(allTweets.length, 20); i++) {
       const tweet = allTweets[i];
       try {
-        const insertData = {
-          project_id: projectId,
-          tweet_id: `${projectId}-${Date.now()}-${i}`,
-          tweet_text: tweet.text,
-          author: tweet.query.startsWith('from:') ? `@${twitterHandle}` : 'Unknown',
-          created_at: new Date().toISOString(),
-          importance_score: tweet.query.startsWith('from:') ? 8 : 6,
-          category: 'general',
-          summary: tweet.text.substring(0, 200),
-          url: `https://twitter.com/search?q=${encodeURIComponent(tweet.query)}`
-        };
-        
-        console.log(`Inserting tweet ${i}:`, insertData);
-        
         const { data, error } = await supabase
           .from('tweet_analyses')
-          .insert(insertData)
+          .insert({
+            project_id: projectId,
+            tweet_id: `${projectId}-${Date.now()}-${i}`,
+            tweet_text: tweet.text,
+            author: tweet.query.startsWith('from:') ? `@${twitterHandle}` : 'Unknown',
+            created_at: new Date().toISOString(),
+            importance_score: tweet.query.startsWith('from:') ? 8 : 6,
+            category: 'general',
+            summary: tweet.text.substring(0, 200),
+            url: `https://twitter.com/search?q=${encodeURIComponent(tweet.query)}`
+          })
           .select();
         
-        if (error) {
-          console.error('Insert error:', error);
-        } else if (data) {
-          console.log('Insert success:', data);
+        if (!error && data) {
           storedTweets.push(data[0]);
         }
       } catch (err) {

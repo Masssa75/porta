@@ -131,7 +131,7 @@ A cryptocurrency portfolio monitoring system that tracks important news and upda
 - Nitter search Edge Function template created (adapted from KROMV12)
 - Ready for GitHub repository creation and dependency installation
 
-### Session 2 - [2025-06-15] WRAP
+### Session 2 - [2025-06-15] 
 **Major Achievement: Full Autonomous Deployment!**
 
 **Created porta project with complete automation:**
@@ -150,26 +150,61 @@ A cryptocurrency portfolio monitoring system that tracks important news and upda
    - Downgraded Tailwind CSS v4 to v3 (compatibility issue)
    - Created multiple deployment scripts with fallbacks
 
-4. **Documentation Created:**
-   - `AUTONOMOUS_SETUP_PROTOCOL.md` - Complete guide for future projects
-   - `NETLIFY_VS_VERCEL.md` - Platform comparison
-   - Multiple deployment scripts for different approaches
+### Session 3 - [2025-06-15]
+**Major Progress: Edge Function Working!**
 
-5. **Lessons Learned:**
-   - File-based automation works well for Claude Code
-   - Always test builds locally first
-   - Netlify's GitHub integration is superior to API deployment
-   - Tailwind CSS v4 not production-ready
+**Completed:**
+1. ✅ **Frontend Search & Add Projects** - CoinGecko integration working
+2. ✅ **Database Setup** - Created tables with RLS policies
+3. ✅ **Edge Function Deployed** - Nitter search via ScraperAPI
+4. ✅ **Tweet Fetching Works** - Successfully pulling tweets for projects
 
-**Next Session TODO:**
-- [ ] Deploy Nitter search Edge Function to Supabase (code in `supabase/functions/nitter-search/index.ts`)
-- [ ] Add ScraperAPI key to Supabase secrets
-- [ ] Connect frontend to Supabase (client already in `lib/supabase.ts`)
-- [ ] Implement project search to actually call Nitter API
-- [ ] Set up Telegram bot with BotFather
-- [ ] Create Supabase cron job for automated monitoring
-- [ ] Add Gemini API for tweet importance scoring
-- [ ] Test with real projects (Kaspa, Bittensor)
+**Key Discovery - Why KROMV12 Works:**
+- KROMV12 searches for **contract addresses** (technical, low volume)
+- We search for **project names/symbols** (popular, high volume)
+- Nitter/ScraperAPI handles technical searches better (less rate limiting)
+- Solution: Adapted KROMV12's exact Edge Function structure
+
+**Technical Implementation:**
+- Used KROMV12's Edge Function as base (same Supabase client setup)
+- Removed complex error handling and interfaces
+- Simple fetch without extra headers
+- Search strategy: `from:handle`, `$SYMBOL`, project name
+
+**Current Status:**
+- ✅ Edge Function returns tweets (10 found for Kaspa)
+- ❌ Database storage not working yet (0 stored) - needs debugging
+- Added logging to diagnose insert failures
+
+### Session 4 TODO - [2025-06-16]
+**Morning Tasks:**
+1. [ ] Fix database storage issue (check logs for insert errors)
+2. [ ] Verify tweets are displayed in frontend
+3. [ ] Test with multiple projects (Kaspa, Bittensor, etc.)
+
+**Afternoon - Tweet Analysis & Notifications:**
+1. [ ] Add Gemini API integration for importance scoring
+2. [ ] Set up Telegram bot with BotFather
+3. [ ] Create notification sending logic
+4. [ ] Design notification triggers:
+   - Importance threshold (e.g., score > 7)
+   - Categories (partnership, technical, listing)
+   - Official announcements only option
+
+**Evening - Automated Monitoring:**
+1. [ ] Create Supabase cron job (every hour? every 30 min?)
+2. [ ] Decide monitoring strategy:
+   - All projects in rotation?
+   - Priority based on last check time?
+   - Different frequencies for different projects?
+3. [ ] Add monitoring dashboard/logs
+4. [ ] Handle rate limits gracefully
+
+**Discussion Points for Tomorrow:**
+- How often to check each project?
+- Should importance thresholds be per-project?
+- Notification batching vs immediate alerts?
+- How to handle API rate limits across multiple projects?
 
 **Current Deployment Status:**
 - **Live URL**: https://portax.netlify.app
