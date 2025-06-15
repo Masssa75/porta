@@ -16,12 +16,9 @@
    - Copy ALL the code from `supabase/functions/nitter-search/index.ts`
    - Paste it into the editor
 
-5. **Add the ScraperAPI key**:
-   - Click on "Settings" tab
-   - Under "Environment Variables", click "Add new"
-   - Name: `SCRAPERAPI_KEY`
-   - Value: `43f3f4aa590f2d310b5a70d8a28e94a2`
-   - Click "Save"
+5. **ScraperAPI key is already included**:
+   - The API key is embedded in the code for easier deployment
+   - No need to add environment variables
 
 6. **Deploy**:
    - Click "Deploy" button
