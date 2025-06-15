@@ -6,3 +6,8 @@ node_modules/
 *.log
 deployment-results.json
 .DS_Store
+
+# temp files
+temp-*.ts
+temp-*.js
+temp-function.*

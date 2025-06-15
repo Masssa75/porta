@@ -17,7 +17,7 @@ async function deployEdgeFunction() {
     // Since we don't have one, let's create an alternative approach
     
     // Read the function code
-    const functionPath = path.join(__dirname, 'supabase', 'functions', 'nitter-search', 'index.ts');
+    const functionPath = path.join(__dirname, 'supabase', 'functions', 'nitter-search', 'index.ts.edge');
     const functionCode = fs.readFileSync(functionPath, 'utf8');
     
     // Create a deployment using the service role key
@@ -100,11 +100,12 @@ async function deployEdgeFunction() {
 }
 
 function createCurlCommand() {
-  const functionPath = path.join(__dirname, 'supabase', 'functions', 'nitter-search', 'index.ts');
+  const functionPath = path.join(__dirname, 'supabase', 'functions', 'nitter-search', 'index.ts.edge');
   const functionCode = fs.readFileSync(functionPath, 'utf8');
   
-  // Save function to a temp file for curl
-  const tempFile = 'temp-function.ts';
+  // Save function to a temp file for curl (in tmp directory to avoid build issues)
+  const os = require('os');
+  const tempFile = path.join(os.tmpdir(), 'porta-edge-function.ts');
   fs.writeFileSync(tempFile, functionCode);
   
   console.log('\n=== Alternative: Use this curl command ===\n');
