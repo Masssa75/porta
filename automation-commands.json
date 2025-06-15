@@ -1,0 +1,9 @@
+[
+  {
+    "action": "run_setup",
+    "params": {
+      "projectName": "porta"
+    },
+    "description": "Deploy porta project to Supabase, GitHub, and Vercel"
+  }
+]

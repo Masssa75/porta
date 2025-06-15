@@ -1,0 +1,8 @@
+node_modules/
+.next/
+.env
+.env.local
+.vercel
+*.log
+deployment-results.json
+.DS_Store
