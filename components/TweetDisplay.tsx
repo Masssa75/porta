@@ -53,8 +53,10 @@ export default function TweetDisplay({ projectId, projectName, symbol, twitterHa
       console.log('Calling Edge Function for:', projectName)
       console.log('Edge Function URL:', `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/nitter-search`)
       
+      let data: any = null
+      
       try {
-        const { data, error: fnError } = await supabase.functions.invoke('nitter-search', {
+        const response = await supabase.functions.invoke('nitter-search', {
           body: {
             projectId,
             projectName,
@@ -64,12 +66,14 @@ export default function TweetDisplay({ projectId, projectName, symbol, twitterHa
           }
         })
 
-        console.log('Edge Function response:', { data, error: fnError })
+        console.log('Edge Function response:', response)
 
-        if (fnError) {
-          console.error('Edge Function error details:', fnError)
-          throw fnError
+        if (response.error) {
+          console.error('Edge Function error details:', response.error)
+          throw response.error
         }
+        
+        data = response.data
       } catch (invokeError) {
         console.error('Failed to invoke Edge Function:', invokeError)
         const errorMessage = invokeError instanceof Error ? invokeError.message : 'Unknown error'
