@@ -51,7 +51,7 @@ export default function TweetDisplay({ projectId, projectName, symbol, twitterHa
 
       // If no existing tweets, call Edge Function
       console.log('Calling Edge Function for:', projectName)
-      console.log('Edge Function URL:', `${supabase.supabaseUrl}/functions/v1/nitter-search`)
+      console.log('Edge Function URL:', `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/nitter-search`)
       
       try {
         const { data, error: fnError } = await supabase.functions.invoke('nitter-search', {
