@@ -51,19 +51,28 @@ export default function TweetDisplay({ projectId, projectName, symbol, twitterHa
 
       // If no existing tweets, call Edge Function
       console.log('Calling Edge Function for:', projectName)
+      console.log('Edge Function URL:', `${supabase.supabaseUrl}/functions/v1/nitter-search`)
       
-      const { data, error: fnError } = await supabase.functions.invoke('nitter-search', {
-        body: {
-          projectId,
-          projectName,
-          symbol,
-          twitterHandle,
-          timeRange: 'day'
-        }
-      })
+      try {
+        const { data, error: fnError } = await supabase.functions.invoke('nitter-search', {
+          body: {
+            projectId,
+            projectName,
+            symbol,
+            twitterHandle,
+            timeRange: 'day'
+          }
+        })
 
-      if (fnError) {
-        throw fnError
+        console.log('Edge Function response:', { data, error: fnError })
+
+        if (fnError) {
+          console.error('Edge Function error details:', fnError)
+          throw fnError
+        }
+      } catch (invokeError) {
+        console.error('Failed to invoke Edge Function:', invokeError)
+        throw new Error(`Edge Function error: ${invokeError.message || 'Unknown error'}`)
       }
 
       if (data?.tweets && data.tweets.length > 0) {
