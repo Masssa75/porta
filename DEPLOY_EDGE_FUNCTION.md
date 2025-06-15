@@ -13,8 +13,9 @@
 
 4. **Replace the default code**:
    - Delete all the default code
-   - Copy ALL the code from `supabase/functions/nitter-search/index.ts`
+   - Copy ALL the code from `supabase/functions/nitter-search/index.ts.edge`
    - Paste it into the editor
+   - (Note: The file is named .edge to prevent Next.js build errors)
 
 5. **Add the ScraperAPI key securely**:
    - Click on "Settings" tab
