@@ -31,11 +31,17 @@ export default function ProjectList() {
         .select('*')
         .order('created_at', { ascending: false })
 
-      if (error) throw error
+      if (error) {
+        console.error('Supabase error:', error)
+        throw error
+      }
 
+      console.log('Fetched projects:', data)
       setProjects(data || [])
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch projects')
+      console.error('Error fetching projects:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch projects'
+      setError(errorMessage)
     } finally {
       setLoading(false)
     }

@@ -52,19 +52,24 @@ export default function ProjectSearch() {
     setError(null)
 
     try {
-      const { error } = await supabase.from('projects').insert({
+      console.log('Adding project:', coin)
+      
+      const { data, error } = await supabase.from('projects').insert({
         name: coin.name,
         symbol: coin.symbol.toUpperCase(),
         coingecko_id: coin.id,
-        twitter_handle: coin.twitter_handle,
+        twitter_handle: coin.twitter_handle || null,
         alert_threshold: 7, // Default threshold
         wallet_addresses: []
-      })
+      }).select()
 
       if (error) {
+        console.error('Supabase insert error:', error)
         throw error
       }
 
+      console.log('Project added successfully:', data)
+      
       // Remove from results after successful add
       setResults(results.filter(r => r.id !== coin.id))
       
@@ -74,7 +79,9 @@ export default function ProjectSearch() {
         addedItem.classList.add('opacity-50')
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to add project')
+      console.error('Error adding project:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Failed to add project'
+      setError(errorMessage)
     } finally {
       setAdding(null)
     }
