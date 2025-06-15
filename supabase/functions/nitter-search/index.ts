@@ -43,8 +43,11 @@ serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-    // ScraperAPI key embedded for easier deployment
-    const scraperApiKey = Deno.env.get('SCRAPERAPI_KEY') || '43f3f4aa590f2d310b5a70d8a28e94a2'
+    const scraperApiKey = Deno.env.get('SCRAPERAPI_KEY')!
+    
+    if (!scraperApiKey) {
+      throw new Error('SCRAPERAPI_KEY environment variable is not set')
+    }
     
     const supabase = createClient(supabaseUrl, supabaseServiceKey)
 

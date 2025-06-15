@@ -6,7 +6,7 @@ require('dotenv').config({ path: '.env.local' });
 
 const projectRef = process.env.SUPABASE_PROJECT_ID || 'midojobnawatvxhmhmoh';
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const scraperApiKey = '43f3f4aa590f2d310b5a70d8a28e94a2';
+const scraperApiKey = process.env.SCRAPERAPI_KEY; // Keep this secure!
 
 async function deployEdgeFunction() {
   console.log('Deploying Edge Function via Supabase Management API...');
