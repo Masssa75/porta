@@ -512,7 +512,7 @@ async function deployToVercel(githubRepo) {
           type: 'github',
           repo: `${GITHUB_USERNAME}/${PROJECT_NAME}`
         },
-        rootDirectory: './',
+        rootDirectory: '',
         buildCommand: 'npm run build',
         devCommand: 'npm run dev',
         installCommand: 'npm install',

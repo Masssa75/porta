@@ -1,0 +1,188 @@
+# Crypto Portfolio Notification System - CLAUDE.md
+
+## Project Overview
+A cryptocurrency portfolio monitoring system that tracks important news and updates for selected crypto projects and sends Telegram notifications when significant events occur.
+
+## Critical Development Rules
+1. **Never create fallback systems without explicit request** - No automatic fallbacks, mockups, or demo content unless specifically requested
+2. **Always create backup before major changes** - Complete backup required before database integration, authentication changes, API refactoring, etc.
+3. **Do only what's asked; nothing more, nothing less**
+4. **Never create files unless absolutely necessary** - Always prefer editing existing files
+5. **Never proactively create documentation files unless requested**
+
+## Working Preferences
+- Always explain before executing
+- Step-by-step approach with testing at each stage
+- Local testing first
+- Autonomous testing preferred
+- Full implementation with complete code (not just snippets)
+- Never add mock data unless requested
+- Ask for clarification when ambiguous
+
+## Technical Stack
+- **Frontend**: Next.js 14 with TypeScript and Tailwind CSS
+- **Backend**: Supabase Edge Functions (Deno)
+- **Database**: Supabase (PostgreSQL)
+- **Hosting**: Vercel (frontend), Supabase (backend)
+- **APIs**:
+  - ScraperAPI + Nitter for Twitter data
+  - Google Gemini for AI analysis
+  - Telegram Bot API for notifications
+  - CoinGecko for project data
+  - Blockchain explorers for wallet data (future)
+
+## Key Components
+
+### 1. Project Identification System
+**Challenge**: Need unique identifiers for all crypto projects
+- **Options**:
+  - CoinGecko ID (e.g., "bitcoin", "casper-network", "bittensor")
+  - CoinMarketCap ID/slug
+  - Twitter handles (most reliable for Nitter searches)
+  - Combination approach: Store multiple identifiers per project
+
+### 2. Data Sources
+**Primary Sources**:
+- **Twitter/X**: Via Nitter + ScraperAPI (from KROMV12 implementation)
+- **Telegram**: Public channels via Telegram API
+- **Reddit**: Reddit API (if needed)
+- **Discord**: Via webhooks or bots (if accessible)
+- **Medium**: RSS feeds or web scraping
+- **Official blogs**: RSS feeds when available
+
+### 3. Search Strategy for Nitter
+**Best practices identified**:
+- Search by @handle (most reliable)
+- Search by $TICKER symbol
+- Search by project name
+- Combine multiple search terms for comprehensive coverage
+
+### 4. Notification Logic
+- Importance scoring system (1-10)
+- Categories: Partnership, Technical Update, Price Alert, Community News
+- Threshold-based notifications
+- Deduplication to avoid spam
+
+## API Options
+
+### For Project Data:
+1. **CoinGecko API** (Free tier: 10-50 calls/min)
+   - Comprehensive project info
+   - Price data
+   - Social links
+   
+2. **CoinMarketCap API** (Free tier: 333 calls/day)
+   - Similar to CoinGecko
+   - Good for cross-reference
+
+3. **DeFiLlama API** (Free)
+   - TVL data
+   - Protocol information
+
+### For Social Data:
+1. **Nitter + ScraperAPI** (Already implemented in KROMV12)
+2. **Telegram API** (Free, rate limits apply)
+3. **Reddit API** (Free tier available)
+4. **The Graph Protocol** (For blockchain data)
+
+## Current Status
+- Project initialized with basic structure
+- Reviewing KROMV12 implementation for Nitter integration
+- Planning architecture for notification system
+
+## Next Steps
+1. Set up Supabase database schema
+2. Implement project addition system with multiple identifiers
+3. Port Nitter search functionality from KROMV12
+4. Create cron job system for monitoring
+5. Implement Gemini AI analysis
+6. Set up Telegram bot and notification system
+
+## Open Questions
+1. Should we support multiple notification channels (Telegram, Discord, Email)?
+2. How to handle rate limits across multiple APIs?
+3. Should we implement a web dashboard or CLI tool first?
+4. What constitutes "important" news? (Need scoring criteria)
+
+## Session History
+
+### Session 1 - [2025-06-15]
+- Initial project discussion
+- Reviewed KROMV12 implementation for Nitter/ScraperAPI approach
+- Created initial CLAUDE.md file
+- Identified key technical decisions needed
+- Focus on notification system as primary feature (not full portfolio tracking yet)
+- Renamed project from "Portfolio" to "portx"
+- Created project structure:
+  - README.md with project overview
+  - .gitignore for Node.js projects
+  - package.json configured for Next.js
+  - setup.sh for dependency installation
+  - setup-github.md for repository creation
+  - SETUP_GUIDE.md for quick start instructions
+  - next.config.js for Next.js configuration
+  - supabase/schema.sql with database design
+  - supabase/functions/nitter-search/index.ts Edge Function
+
+## Current Project State
+- Project directory created at /Users/marcschwyn/Desktop/projects/portx
+- Basic configuration files in place
+- Database schema designed with 4 tables: projects, tweet_analyses, notifications, monitoring_logs
+- Nitter search Edge Function template created (adapted from KROMV12)
+- Ready for GitHub repository creation and dependency installation
+
+### Session 2 - [2025-06-15] WRAP
+**Major Achievement: Full Autonomous Deployment!**
+
+**Created porta project with complete automation:**
+1. **Automation Server** - File-based command system for Claude Code
+   - Watches `automation-commands.json` for commands
+   - Executes them automatically
+   - Saves results to `latest-result.json`
+
+2. **Successfully Deployed to 3 Platforms:**
+   - ✅ **Supabase**: Database created (ID: midojobnawatvxhmhmoh)
+   - ✅ **GitHub**: Repository at https://github.com/Masssa75/porta
+   - ✅ **Netlify**: Live deployment (after fixing Tailwind CSS v4→v3)
+
+3. **Key Technical Decisions:**
+   - Chose Netlify over Vercel (simpler API, better error messages)
+   - Downgraded Tailwind CSS v4 to v3 (compatibility issue)
+   - Created multiple deployment scripts with fallbacks
+
+4. **Documentation Created:**
+   - `AUTONOMOUS_SETUP_PROTOCOL.md` - Complete guide for future projects
+   - `NETLIFY_VS_VERCEL.md` - Platform comparison
+   - Multiple deployment scripts for different approaches
+
+5. **Lessons Learned:**
+   - File-based automation works well for Claude Code
+   - Always test builds locally first
+   - Netlify's GitHub integration is superior to API deployment
+   - Tailwind CSS v4 not production-ready
+
+**Next Session TODO:**
+- [ ] Deploy Nitter search Edge Function to Supabase (code in `supabase/functions/nitter-search/index.ts`)
+- [ ] Add ScraperAPI key to Supabase secrets
+- [ ] Connect frontend to Supabase (client already in `lib/supabase.ts`)
+- [ ] Implement project search to actually call Nitter API
+- [ ] Set up Telegram bot with BotFather
+- [ ] Create Supabase cron job for automated monitoring
+- [ ] Add Gemini API for tweet importance scoring
+- [ ] Test with real projects (Casper, Bittensor)
+
+**Current Deployment Status:**
+- **Live URL**: https://portax.netlify.app
+- **GitHub**: https://github.com/Masssa75/porta
+- **Supabase Project ID**: midojobnawatvxhmhmoh
+- **Supabase Dashboard**: https://app.supabase.com/project/midojobnawatvxhmhmoh
+
+**API Keys Still Needed:**
+- SCRAPERAPI_KEY (for Nitter searches)
+- GEMINI_API_KEY (for AI analysis)
+- TELEGRAM_BOT_TOKEN (for notifications)
+
+## Version
+- Current Version: 0.2.0
+- Last Updated: 2025-06-15
+- Status: porta successfully deployed to production!
