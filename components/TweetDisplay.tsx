@@ -72,7 +72,8 @@ export default function TweetDisplay({ projectId, projectName, symbol, twitterHa
         }
       } catch (invokeError) {
         console.error('Failed to invoke Edge Function:', invokeError)
-        throw new Error(`Edge Function error: ${invokeError.message || 'Unknown error'}`)
+        const errorMessage = invokeError instanceof Error ? invokeError.message : 'Unknown error'
+        throw new Error(`Edge Function error: ${errorMessage}`)
       }
 
       if (data?.tweets && data.tweets.length > 0) {
