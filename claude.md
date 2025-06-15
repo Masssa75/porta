@@ -169,7 +169,7 @@ A cryptocurrency portfolio monitoring system that tracks important news and upda
 - [ ] Set up Telegram bot with BotFather
 - [ ] Create Supabase cron job for automated monitoring
 - [ ] Add Gemini API for tweet importance scoring
-- [ ] Test with real projects (Casper, Bittensor)
+- [ ] Test with real projects (Kaspa, Bittensor)
 
 **Current Deployment Status:**
 - **Live URL**: https://portax.netlify.app
