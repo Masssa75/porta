@@ -1,5 +1,6 @@
 import ProjectSearch from '@/components/ProjectSearch'
 import ProjectList from '@/components/ProjectList'
+import TelegramConnect from '@/components/TelegramConnect'
 
 export default function Home() {
   return (
@@ -10,6 +11,10 @@ export default function Home() {
             PortA
           </h1>
           <p className="text-xl text-gray-400">Crypto Portfolio Monitor</p>
+        </div>
+        
+        <div className="mb-8">
+          <TelegramConnect />
         </div>
         
         <div className="grid md:grid-cols-2 gap-8">
