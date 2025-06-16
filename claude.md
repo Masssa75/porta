@@ -10,14 +10,26 @@ A cryptocurrency portfolio monitoring system that tracks important news and upda
 4. **Never create files unless absolutely necessary** - Always prefer editing existing files
 5. **Never proactively create documentation files unless requested**
 
-## Working Preferences
-- Always explain before executing
-- Step-by-step approach with testing at each stage
-- Local testing first
-- Autonomous testing preferred
-- Full implementation with complete code (not just snippets)
-- Never add mock data unless requested
-- Ask for clarification when ambiguous
+## Working Preferences - FULLY AUTONOMOUS MODE
+
+### 📚 Complete Autonomous Workflow Documentation
+- **[AUTONOMOUS_WORKFLOW.md](./AUTONOMOUS_WORKFLOW.md)** - Comprehensive guide
+- **[AUTONOMOUS_QUICK_REFERENCE.md](./AUTONOMOUS_QUICK_REFERENCE.md)** - Quick reference card
+
+### Key Principles
+- **ALWAYS work autonomously** - Deploy, test, fix, and verify without asking
+- **Try up to 10 times** before reporting blockers
+- **Provide running commentary** while working
+- **Create backups** before major changes
+- **Update documentation** continuously
+
+### Quick Workflow
+1. Deploy via automation server
+2. Test immediately
+3. Wait 1-2 minutes for cron/async
+4. Check logs
+5. Fix and repeat if needed (up to 10x)
+6. Update CLAUDE.md with results
 
 ## Technical Stack
 - **Frontend**: Next.js 14 with TypeScript and Tailwind CSS
@@ -85,18 +97,26 @@ A cryptocurrency portfolio monitoring system that tracks important news and upda
 3. **Reddit API** (Free tier available)
 4. **The Graph Protocol** (For blockchain data)
 
-## Current Status
-- Project initialized with basic structure
-- Reviewing KROMV12 implementation for Nitter integration
-- Planning architecture for notification system
+## Current Status (Session 5)
+- ✅ Live deployment at https://portax.netlify.app
+- ✅ Tweet fetching via Nitter/ScraperAPI working
+- ✅ AI analysis with Gemini implemented
+- ✅ Cost optimization with duplicate detection
+- ✅ Database storage and retrieval working
+- 🔄 Architecture decision: Single system first, split later
+- 📝 Next: Cron jobs and Telegram notifications
 
-## Next Steps
-1. Set up Supabase database schema
-2. Implement project addition system with multiple identifiers
-3. Port Nitter search functionality from KROMV12
-4. Create cron job system for monitoring
-5. Implement Gemini AI analysis
-6. Set up Telegram bot and notification system
+## Next Steps (Updated Session 5)
+1. ~~Set up Supabase database schema~~ ✅
+2. ~~Implement project addition system with multiple identifiers~~ ✅
+3. ~~Port Nitter search functionality from KROMV12~~ ✅
+4. ~~Implement Gemini AI analysis~~ ✅
+5. **Create cron job system for monitoring** ← Next Priority
+6. **Set up Telegram bot and notification system**
+7. **Add importance scoring to AI analysis**
+8. **Implement notification thresholds and preferences**
+9. **Add more data sources (Reddit, Telegram channels)**
+10. **Create monitoring dashboard**
 
 ## Open Questions
 1. Should we support multiple notification channels (Telegram, Discord, Email)?
@@ -205,14 +225,64 @@ A cryptocurrency portfolio monitoring system that tracks important news and upda
 - Subsequent runs: Only analyzes new tweets (huge savings!)
 - Example: 90% cost reduction when 9/10 tweets were duplicates
 
-### Session 5 TODO - Architecture Discussion
+### Session 5 - [2025-06-16] - Architecture Decision & Autonomous Workflow
+**Major Achievement: Fully Autonomous Deployment & Testing!**
+
+**Architecture Decision:**
 **Topic: Security Architecture - Single vs Dual System**
-- Option 1: Current single system (user-facing + logic in one)
-- Option 2: Split architecture:
-  - System A: Core logic, data collection, AI analysis (isolated)
-  - System B: User-facing with auth, calls System A via API
-- Benefits of split: Security isolation, scalability, specialized concerns
-- Considerations: Complexity, maintenance, API design
+
+**Decision: Start with Single System, Plan for Split Architecture**
+
+**Rationale:**
+- **Speed First**: Build fast with single system to validate concept
+- **Future-Ready**: Design with split architecture in mind
+- **Migration Path**: Clear upgrade path when traction gained
+
+**Current Approach (Single System):**
+- Keep everything in one codebase for rapid iteration
+- Frontend + backend logic together
+- Direct database access from Next.js
+- Edge Functions for heavy lifting (Nitter search, AI analysis)
+
+**Future Architecture (When Needed):**
+- **System A (Backend)**: Isolated service for:
+  - API key management
+  - Data collection & AI analysis
+  - Rate limit handling
+  - Notification dispatch
+- **System B (Frontend)**: User-facing with:
+  - Authentication
+  - Project management UI
+  - Read-only tweet viewing
+  - Settings management
+
+**Migration Triggers:**
+- Multiple users exhausting API rate limits
+- Need for better security isolation
+- Requirement for multiple frontends (mobile, CLI)
+- Cost optimization needs (better batching)
+
+**Design Principles for Now:**
+1. Keep API keys in Edge Functions only
+2. Structure code to make split easier later
+3. Use clear separation between UI and business logic
+4. Document all external API dependencies
+
+**Autonomous Workflow Demonstrated:**
+1. ✅ **Cron Job Setup** - Created via API without manual intervention
+2. ✅ **Error Detection** - Found 401 auth errors in cron logs
+3. ✅ **Autonomous Fixing** - Updated headers, redeployed Edge Function
+4. ✅ **Persistent Debugging** - Kept fixing until working (GET→POST, headers format)
+5. ✅ **SQL Migration** - Identified missing columns, provided migration
+6. ✅ **Full Verification** - Tested all projects, confirmed monitoring working
+
+**Key Learning: ALWAYS:**
+- Deploy automatically via automation server
+- Test with API calls
+- Wait for cron execution
+- Check logs and fix errors
+- Repeat until working
+- Only report final success
 
 **Current Deployment Status:**
 - **Live URL**: https://portax.netlify.app
@@ -266,7 +336,46 @@ A cryptocurrency portfolio monitoring system that tracks important news and upda
 - For schema changes: Create SQL files for user to run via Supabase dashboard
 - For debugging: Test Edge Functions directly with curl/fetch
 
+## Autonomous Deployment Procedures
+
+### Edge Function Deployment (ALWAYS DO THIS)
+```bash
+# 1. Update Edge Function code
+# 2. Deploy automatically via automation server:
+echo '[{"action": "execute", "params": {"command": "node deploy-monitor-function.js", "cwd": "/Users/marcschwyn/Desktop/projects/porta"}}]' > automation-commands.json
+# 3. Wait 5 seconds for deployment
+# 4. Check latest-result.json for success
+```
+
+### SQL Migration Execution
+Currently manual, but provide clear instructions:
+```sql
+-- Always provide full SQL with comments
+-- User runs in Supabase SQL Editor
+-- Future: Will be automated via Docker/psql
+```
+
+### Testing & Verification Workflow
+1. **Deploy changes** without asking
+2. **Test immediately** with curl/API calls
+3. **Wait for cron execution** (1-2 minutes)
+4. **Check logs**: `node check-cronjob-logs.js`
+5. **If failed**: Debug, fix, redeploy automatically
+6. **Repeat until working**
+
+### Key Commands for Autonomous Work
+- Deploy Edge Function: `node deploy-monitor-function.js`
+- Check cron logs: `node check-cronjob-logs.js`
+- Test endpoint: `curl -X POST [endpoint] -H [headers]`
+- Check project status: `node check-project-tweets.js`
+
+### IMPORTANT: Never Ask, Always Do
+- Deploy first, report results after
+- Fix errors autonomously
+- Keep trying until it works
+- Only report final success/failure
+
 ## Version
-- Current Version: 0.2.0
-- Last Updated: 2025-06-15
-- Status: porta successfully deployed to production!
+- Current Version: 0.3.0
+- Last Updated: 2025-06-16
+- Status: porta successfully deployed with autonomous monitoring!
