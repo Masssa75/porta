@@ -215,17 +215,38 @@ serve(async (req) => {
     }
     
     // Prepare tweets for batch analysis
-    const tweetsToAnalyze = allTweets.slice(0, 20);
+    const tweetsToCheck = allTweets.slice(0, 20);
+    
+    // Check for duplicates BEFORE AI analysis to save costs
+    console.log(`Checking ${tweetsToCheck.length} tweets for duplicates...`);
+    
+    const tweetTexts = tweetsToCheck.map(t => t.text);
+    const { data: existingTweets, error: dupCheckError } = await supabase
+      .from('tweet_analyses')
+      .select('tweet_text')
+      .eq('project_id', projectId)
+      .in('tweet_text', tweetTexts);
+    
+    if (dupCheckError) {
+      console.error('Error checking duplicates:', dupCheckError);
+    }
+    
+    const existingTexts = new Set(existingTweets?.map(t => t.tweet_text) || []);
+    const newTweets = tweetsToCheck.filter(t => !existingTexts.has(t.text));
+    const duplicateCount = tweetsToCheck.length - newTweets.length;
+    
+    console.log(`Found ${duplicateCount} duplicates, ${newTweets.length} new tweets to analyze`);
+    
     let analyses: TweetAnalysis[] = [];
     let isAiAnalyzed = false;
     let analysisMetadata: any = {};
     
-    // Only analyze if we have Gemini API key and tweets
-    if (geminiApiKey && tweetsToAnalyze.length > 0) {
-      console.log(`Analyzing ${tweetsToAnalyze.length} tweets in batch...`);
+    // Only analyze NEW tweets with AI
+    if (geminiApiKey && newTweets.length > 0) {
+      console.log(`Analyzing ${newTweets.length} new tweets in batch...`);
       try {
         analyses = await analyzeTweetsBatch(
-          tweetsToAnalyze,
+          newTweets,
           projectName,
           symbol,
           geminiApiKey
@@ -234,10 +255,12 @@ serve(async (req) => {
         analysisMetadata = {
           model: 'gemini-1.5-flash',
           analyzed_at: new Date().toISOString(),
-          tweet_count: tweetsToAnalyze.length,
+          tweets_checked: tweetsToCheck.length,
+          duplicates_found: duplicateCount,
+          new_tweets_analyzed: newTweets.length,
           api_calls: 1
         };
-        console.log(`Batch analysis complete. Cost: 1 API call for ${tweetsToAnalyze.length} tweets`);
+        console.log(`Batch analysis complete. Cost: 1 API call for ${newTweets.length} new tweets (saved ${duplicateCount} duplicate analyses)`);
       } catch (aiError) {
         console.error('AI analysis failed, using fallback:', aiError);
         isAiAnalyzed = false;
@@ -246,8 +269,8 @@ serve(async (req) => {
           fallback_reason: 'ai_error',
           analyzed_at: new Date().toISOString()
         };
-        // Fallback scoring
-        analyses = tweetsToAnalyze.map((t, i) => ({
+        // Fallback scoring for new tweets only
+        analyses = newTweets.map((t, i) => ({
           tweet_index: i,
           importance_score: t.is_official ? 7 : 5,
           category: 'general',
@@ -260,24 +283,27 @@ serve(async (req) => {
       // No AI analysis - use basic scoring
       isAiAnalyzed = false;
       analysisMetadata = {
-        fallback_reason: geminiApiKey ? 'no_tweets' : 'no_api_key',
-        analyzed_at: new Date().toISOString()
+        fallback_reason: geminiApiKey ? (newTweets.length === 0 ? 'all_duplicates' : 'no_new_tweets') : 'no_api_key',
+        analyzed_at: new Date().toISOString(),
+        tweets_checked: tweetsToCheck.length,
+        duplicates_found: duplicateCount,
+        new_tweets_analyzed: newTweets.length
       };
-      analyses = tweetsToAnalyze.map((t, i) => ({
+      analyses = newTweets.map((t, i) => ({
         tweet_index: i,
         importance_score: t.is_official ? 7 : 5,
         category: 'general',
         summary: t.text.substring(0, 200),
         is_official: t.is_official,
-        reasoning: geminiApiKey ? 'No tweets to analyze' : 'No AI API key'
+        reasoning: geminiApiKey ? 'No new tweets' : 'No AI API key'
       }));
     }
     
-    // Store analyzed tweets
+    // Store analyzed tweets (only new ones)
     const storedTweets = [];
     
-    for (let i = 0; i < tweetsToAnalyze.length; i++) {
-      const tweet = tweetsToAnalyze[i];
+    for (let i = 0; i < newTweets.length; i++) {
+      const tweet = newTweets[i];
       const analysis = analyses.find(a => a.tweet_index === i) || {
         importance_score: 5,
         category: 'general',
@@ -287,19 +313,7 @@ serve(async (req) => {
       };
       
       try {
-        // Check for duplicates before inserting
-        const { data: existingTweet } = await supabase
-          .from('tweet_analyses')
-          .select('id')
-          .eq('project_id', projectId)
-          .eq('tweet_text', tweet.text)
-          .single();
-        
-        if (existingTweet) {
-          console.log(`Skipping duplicate tweet: ${tweet.text.substring(0, 50)}...`);
-          continue;
-        }
-        
+        // No need to check duplicates - we already filtered them out
         const insertData = {
           project_id: projectId,
           tweet_id: `${projectId}-${Date.now()}-${i}`,
@@ -345,13 +359,16 @@ serve(async (req) => {
       JSON.stringify({
         success: true,
         found: allTweets.length,
-        analyzed: tweetsToAnalyze.length,
+        checked_for_duplicates: tweetsToCheck.length,
+        duplicates_skipped: duplicateCount,
+        new_tweets_found: newTweets.length,
+        analyzed: newTweets.length,
         stored: storedTweets.length,
         high_importance_count: highImportanceTweets.length,
         is_ai_analyzed: isAiAnalyzed,
         analysis_metadata: analysisMetadata,
-        api_calls_used: isAiAnalyzed ? 1 : 0,
-        cost_per_tweet: isAiAnalyzed && tweetsToAnalyze.length > 0 ? (1 / tweetsToAnalyze.length).toFixed(4) : 0,
+        api_calls_used: isAiAnalyzed && newTweets.length > 0 ? 1 : 0,
+        cost_per_tweet: isAiAnalyzed && newTweets.length > 0 ? (1 / newTweets.length).toFixed(4) : 0,
         tweets: storedTweets.slice(0, 10).map(t => ({
           id: t.id,
           text: t.tweet_text,
