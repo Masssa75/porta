@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { supabase } from '@/lib/supabase'
 
 const TELEGRAM_BOT_USERNAME = 'porta_alerts_bot'
 
@@ -10,7 +10,6 @@ export default function TelegramConnect() {
   const [isConnecting, setIsConnecting] = useState(false)
   const [connectionToken, setConnectionToken] = useState('')
   const [telegramData, setTelegramData] = useState<any>(null)
-  const supabase = createClientComponentClient()
 
   useEffect(() => {
     // Check if already connected
