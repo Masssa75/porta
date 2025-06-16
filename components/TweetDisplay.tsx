@@ -12,6 +12,8 @@ type Tweet = {
   importance_score: number
   category: string
   url: string
+  is_ai_analyzed?: boolean
+  summary?: string
 }
 
 type TweetDisplayProps = {
@@ -163,7 +165,7 @@ export default function TweetDisplay({ projectId, projectName, symbol, twitterHa
                 </div>
                 <div className="flex items-center gap-2">
                   <span className={`text-sm font-bold ${getScoreColor(tweet.importance_score)}`}>
-                    {tweet.importance_score}/10
+                    {tweet.is_ai_analyzed ? '🤖' : '⚠️'} {tweet.importance_score}/10
                   </span>
                   <span className={`text-xs px-2 py-1 rounded ${getCategoryBadge(tweet.category)}`}>
                     {tweet.category}
@@ -171,6 +173,11 @@ export default function TweetDisplay({ projectId, projectName, symbol, twitterHa
                 </div>
               </div>
               <p className="text-sm text-white mb-2">{tweet.tweet_text}</p>
+              {tweet.summary && tweet.summary !== tweet.tweet_text && (
+                <p className="text-xs text-gray-400 italic mb-2">
+                  Summary: {tweet.summary}
+                </p>
+              )}
               {tweet.url && (
                 <a
                   href={tweet.url}
