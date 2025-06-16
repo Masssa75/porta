@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { supabase } from '@/lib/supabase'
+import { createClient } from '@supabase/supabase-js'
 
 const TELEGRAM_BOT_USERNAME = 'porta_alerts_bot'
 
@@ -10,6 +10,12 @@ export default function TelegramConnect() {
   const [isConnecting, setIsConnecting] = useState(false)
   const [connectionToken, setConnectionToken] = useState('')
   const [telegramData, setTelegramData] = useState<any>(null)
+  
+  // Create Supabase client inside component to avoid build-time issues
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
 
   useEffect(() => {
     // Check if already connected
@@ -208,7 +214,12 @@ function NotificationSettings({ connectionToken }: { connectionToken: string }) 
     daily_digest: false,
     threshold: 7
   })
-  const supabase = createClientComponentClient()
+  
+  // Create Supabase client inside component
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
 
   useEffect(() => {
     loadPreferences()
