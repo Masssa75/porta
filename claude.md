@@ -217,6 +217,47 @@ A cryptocurrency portfolio monitoring system that tracks important news and upda
 - GEMINI_API_KEY (for AI analysis)
 - TELEGRAM_BOT_TOKEN (for notifications)
 
+## Supabase Management API Capabilities
+
+### What Claude Code CAN do via Supabase APIs:
+
+**Via Management API (with access token):**
+- ✅ List Edge Functions and their status
+- ✅ Check Edge Function secrets/environment variables (encrypted values shown)
+- ✅ Get project information and settings
+- ✅ Test Edge Functions by calling them
+
+**Via Client Library (with service role key):**
+- ✅ **SELECT queries** - Read any data from any table (bypasses RLS)
+- ✅ **INSERT data** - Add new records to tables
+- ✅ **UPDATE data** - Modify existing records
+- ✅ **DELETE data** - Remove records
+- ✅ **Execute stored procedures/functions** - If they exist in the database
+- ✅ Check RLS policies
+- ✅ Run data manipulation queries
+
+### What Claude Code CANNOT do:
+
+**Cannot do via any API:**
+- ❌ Deploy/update Edge Functions
+- ❌ Edit Edge Function code
+- ❌ View Edge Function logs (logs endpoint not available in v1 API)
+- ❌ Create/modify database schemas (DDL operations)
+- ❌ CREATE, ALTER, or DROP tables/columns
+- ❌ Create indexes
+- ❌ Modify permissions (GRANT/REVOKE)
+- ❌ Create functions/triggers
+- ❌ Modify RLS policies
+- ❌ Change project settings
+- ❌ Manage authentication settings
+- ❌ Access realtime logs or metrics
+
+### Workarounds:
+- For Edge Function deployment: Prepare code locally, user runs `supabase functions deploy`
+- For logs: Add console.log statements in Edge Function code
+- For schema changes: Create SQL files for user to run via Supabase dashboard
+- For debugging: Test Edge Functions directly with curl/fetch
+
 ## Version
 - Current Version: 0.2.0
 - Last Updated: 2025-06-15
