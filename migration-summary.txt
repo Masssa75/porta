@@ -1,0 +1,11 @@
+
+-- Quick summary of what the migration does:
+-- 1. Creates 'users' table for mobile app users
+-- 2. Creates 'referrals' table for referral tracking
+-- 3. Creates 'projects' table for user's tracked crypto projects
+-- 4. Sets up indexes and RLS policies
+-- 5. Creates triggers for updated_at timestamps
+
+-- To run manually:
+-- Copy the full contents of create-users-table.sql
+-- Paste in Supabase SQL Editor and click Run

@@ -13,7 +13,12 @@
     "setup:all": "node scripts/setup-everything.js",
     "setup": "node setup-autonomous.js"
   },
-  "keywords": ["crypto", "portfolio", "monitoring", "alerts"],
+  "keywords": [
+    "crypto",
+    "portfolio",
+    "monitoring",
+    "alerts"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
@@ -21,6 +26,8 @@
     "axios": "^1.10.0",
     "dotenv": "^16.5.0",
     "next": "^15.3.3",
+    "node-fetch": "^2.7.0",
+    "pg": "^8.16.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

@@ -1,0 +1,18 @@
+{
+  "timestamp": "2025-06-16T02:13:51.296Z",
+  "function": "monitor-projects",
+  "projectId": "midojobnawatvxhmhmoh",
+  "dashboardUrl": "https://app.supabase.com/project/midojobnawatvxhmhmoh/functions",
+  "method": "manual-dashboard",
+  "dockerRequired": false,
+  "telegramFunction": {
+    "name": "send-telegram-notification",
+    "endpoint": "https://midojobnawatvxhmhmoh.supabase.co/functions/v1/send-telegram-notification",
+    "deployedAt": "2025-06-16T03:54:37.820Z"
+  },
+  "telegramWebhook": {
+    "name": "telegram-webhook",
+    "endpoint": "https://midojobnawatvxhmhmoh.supabase.co/functions/v1/telegram-webhook",
+    "deployedAt": "2025-06-16T04:10:55.155Z"
+  }
+}

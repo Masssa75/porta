@@ -1,16 +1,15 @@
 {
-  "timestamp": "2025-06-15T12:53:18.883Z",
+  "timestamp": "2025-06-16T11:54:33.396Z",
   "command": {
     "action": "execute",
     "params": {
-      "command": "git add package.json && git commit -m 'Fix: Downgrade Tailwind CSS to v3 for Netlify compatibility' && git push origin main",
+      "command": "node check-existing-tables.js",
       "cwd": "/Users/marcschwyn/Desktop/projects/porta"
-    },
-    "description": "Commit and push Tailwind CSS fix"
+    }
   },
   "result": {
     "success": true,
-    "output": "[main 5a7bb58] Fix: Downgrade Tailwind CSS to v3 for Netlify compatibility\n Committer: Marc Schwyn <marcschwyn@MacBook-Pro-3.local>\nYour name and email address were configured automatically based\non your username and hostname. Please check that they are accurate.\nYou can suppress this message by setting them explicitly. Run the\nfollowing command and follow the instructions in your editor to edit\nyour configuration file:\n\n    git config --global --edit\n\nAfter doing this, you may fix the identity used for this commit with:\n\n    git commit --amend --reset-author\n\n 1 file changed, 1 insertion(+), 1 deletion(-)\n",
-    "command": "git add package.json && git commit -m 'Fix: Downgrade Tailwind CSS to v3 for Netlify compatibility' && git push origin main"
+    "output": "🔍 Checking existing database structure...\n\n📊 Checking users table...\n❌ users table does NOT exist\n\n📊 Checking projects table...\n✅ projects table EXISTS\n   Columns: [\n  'id',\n  'name',\n  'symbol',\n  'coingecko_id',\n  'twitter_handle',\n  'wallet_addresses',\n  'alert_threshold',\n  'created_at',\n  'updated_at',\n  'last_monitored',\n  'notification_threshold',\n  'telegram_connection_id'\n]\n\n📊 Checking referrals table...\n❌ referrals table does NOT exist\n\n📊 Checking telegram_connections table...\n✅ telegram_connections table EXISTS (from main porta app)\n\n📋 Summary:\nThe \"projects\" table that exists is from the MAIN porta app, not the mobile app.\nThis is why you got the \"user_id\" column error - it's a different schema.\n\n🔧 Solution: The fixed SQL will:\n1. Drop the existing projects table (from main app)\n2. Create new projects table with user_id (for mobile app)\n3. Create users and referrals tables\n\n⚠️  Note: This will remove the main porta app's projects data!\nIf you need to keep that data, we should use different table names.\n",
+    "command": "node check-existing-tables.js"
   }
 }

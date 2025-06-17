@@ -21,18 +21,25 @@ interface TelegramUpdate {
 }
 
 serve(async (req) => {
+  // Allow all requests without auth for Telegram webhook
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  }
+  
   if (req.method === 'OPTIONS') {
-    return new Response('ok', {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-      },
-    })
+    return new Response('ok', { headers: corsHeaders })
   }
 
   try {
+    console.log('Webhook called:', req.method, req.url)
+    
+    // Verify it's from Telegram (optional security check)
+    // In production, you might want to verify the secret token
+    
     const update: TelegramUpdate = await req.json()
+    console.log('Received update:', JSON.stringify(update))
     
     if (update.message?.text) {
       const chatId = update.message.chat.id
@@ -43,35 +50,79 @@ serve(async (req) => {
       if (text.startsWith('/start')) {
         const token = text.split(' ')[1]
         
-        if (token && token.startsWith('porta_')) {
-          // Update the connection with telegram chat ID
-          const { error } = await supabase
-            .from('telegram_connections')
-            .update({
-              telegram_chat_id: chatId,
-              telegram_username: username,
-              connected_at: new Date().toISOString()
-            })
-            .eq('connection_token', token)
-            .is('telegram_chat_id', null)
+        if (token) {
+          // Check if user already exists
+          let { data: existingUser } = await supabase
+            .from('users')
+            .select('*')
+            .eq('telegram_chat_id', chatId)
+            .single()
           
-          if (!error) {
-            // Send success message with link back to app
-            await sendMessage(chatId, 
-              `✅ Successfully connected to Porta!\n\n` +
-              `You'll now receive notifications about important crypto news.\n\n` +
-              `<a href="https://portax.netlify.app?telegram_connected=true&token=${token}">Click here to return to Porta</a>`,
-              'HTML'
-            )
+          if (!existingUser) {
+            // Create new user with the connection token
+            const { data: newUser, error: createError } = await supabase
+              .from('users')
+              .insert({
+                telegram_chat_id: chatId,
+                telegram_username: username,
+                telegram_verified: true,
+                status: 'verified',
+                connection_token: token,
+                tier: 'free',
+                projects_limit: 5,
+                referrals_required: 5,
+                referrals_completed: 0,
+                referral_code: `REF${chatId}${Date.now().toString(36).toUpperCase()}`
+              })
+              .select()
+              .single()
+            
+            if (createError) {
+              console.error('Error creating user:', createError)
+              await sendMessage(chatId, '❌ Error creating account. Please try again.')
+              return
+            }
+            
+            existingUser = newUser
           } else {
-            await sendMessage(chatId, '❌ Invalid or expired connection token. Please try again from the Porta app.')
+            // Update existing user with new connection token
+            await supabase
+              .from('users')
+              .update({
+                connection_token: token,
+                telegram_username: username,
+                telegram_verified: true
+              })
+              .eq('id', existingUser.id)
+          }
+          
+          // Send success message for mobile app
+          await sendMessage(chatId, 
+            `✅ Successfully connected to PortAlerts!\n\n` +
+            `You'll now receive notifications about important crypto news.\n\n` +
+            `Return to the app to complete setup.`,
+            'HTML'
+          )
+          
+          // Also check if this was from the old porta system
+          if (token.startsWith('porta_')) {
+            // Update the old telegram_connections table too for compatibility
+            await supabase
+              .from('telegram_connections')
+              .update({
+                telegram_chat_id: chatId,
+                telegram_username: username,
+                connected_at: new Date().toISOString()
+              })
+              .eq('connection_token', token)
+              .is('telegram_chat_id', null)
           }
         } else {
           // No token, send welcome message
           await sendMessage(chatId, 
-            `👋 Welcome to Porta Alerts!\n\n` +
-            `To connect this bot to your Porta account:\n` +
-            `1. Go to https://portax.netlify.app\n` +
+            `👋 Welcome to PortAlerts!\n\n` +
+            `To connect this bot to your account:\n` +
+            `1. Go to https://portalerts.xyz\n` +
             `2. Click "Connect Telegram"\n` +
             `3. Follow the instructions\n\n` +
             `Available commands:\n` +
@@ -84,59 +135,67 @@ serve(async (req) => {
       
       // Handle /status command
       else if (text === '/status') {
-        const { data } = await supabase
-          .from('telegram_connections')
+        const { data: user } = await supabase
+          .from('users')
           .select('*, projects(count)')
           .eq('telegram_chat_id', chatId)
           .single()
         
-        if (data) {
-          const projectCount = data.projects?.[0]?.count || 0
+        if (user) {
+          const projectCount = user.projects?.[0]?.count || 0
           await sendMessage(chatId, 
             `📊 Connection Status:\n\n` +
-            `✅ Connected\n` +
-            `📁 Monitoring ${projectCount} projects\n` +
-            `🔔 Threshold: ${data.notification_preferences?.threshold || 7}/10\n\n` +
-            `Manage settings at: https://portax.netlify.app`
+            `✅ Connected as @${user.telegram_username || 'User'}\n` +
+            `🎯 Tier: ${user.tier || 'free'}\n` +
+            `📁 Monitoring ${projectCount}/${user.projects_limit || 5} projects\n` +
+            `👥 Referrals: ${user.referrals_completed || 0}/${user.referrals_required || 5}\n` +
+            `🔔 Notification threshold: ${user.notification_threshold || 7}/10\n\n` +
+            `Manage settings at: https://portalerts.xyz`
           )
         } else {
-          await sendMessage(chatId, '❌ Not connected. Please connect from the Porta app.')
+          await sendMessage(chatId, '❌ Not connected. Please connect from the PortAlerts app.')
         }
       }
       
       // Handle /settings command
       else if (text === '/settings') {
-        const { data } = await supabase
-          .from('telegram_connections')
-          .select('notification_preferences')
+        const { data: user } = await supabase
+          .from('users')
+          .select('*')
           .eq('telegram_chat_id', chatId)
           .single()
         
-        if (data) {
-          const prefs = data.notification_preferences
+        if (user) {
           await sendMessage(chatId, 
             `⚙️ Notification Settings:\n\n` +
-            `${prefs.important_tweets ? '✅' : '❌'} Important tweets (≥${prefs.threshold})\n` +
-            `${prefs.ai_analysis ? '✅' : '❌'} AI analysis summaries\n` +
-            `${prefs.daily_digest ? '✅' : '❌'} Daily digest\n\n` +
-            `Update settings at: https://portax.netlify.app`
+            `🔔 Notification threshold: ${user.notification_threshold || 7}/10\n` +
+            `Only receive alerts for tweets with importance ≥ ${user.notification_threshold || 7}\n\n` +
+            `📊 Your limits:\n` +
+            `• Projects: ${user.projects_limit || 5} max\n` +
+            `• Referrals needed: ${(user.referrals_required || 5) - (user.referrals_completed || 0)} more for unlimited\n\n` +
+            `Update settings at: https://portalerts.xyz`
           )
         } else {
-          await sendMessage(chatId, '❌ Not connected. Please connect from the Porta app.')
+          await sendMessage(chatId, '❌ Not connected. Please connect from the PortAlerts app.')
         }
       }
       
       // Handle /help command
       else if (text === '/help') {
         await sendMessage(chatId, 
-          `🤖 Porta Alerts Bot\n\n` +
+          `🤖 PortAlerts Bot\n\n` +
           `I send you important crypto news and updates based on AI analysis.\n\n` +
           `Commands:\n` +
           `/status - Check connection status\n` +
           `/settings - View notification settings\n` +
           `/help - Show this message\n\n` +
-          `Manage your projects and settings at:\n` +
-          `https://portax.netlify.app`
+          `Features:\n` +
+          `• AI-powered importance scoring\n` +
+          `• Custom notification thresholds\n` +
+          `• Track up to 5 projects (free tier)\n` +
+          `• Refer friends for unlimited access\n\n` +
+          `Manage your projects at:\n` +
+          `https://portalerts.xyz`
         )
       }
     }

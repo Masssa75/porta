@@ -1,0 +1,13 @@
+{
+  "secretKey": "porta-cron-secure-2025",
+  "functionUrl": "https://midojobnawatvxhmhmoh.supabase.co/functions/v1/monitor-projects",
+  "cronJobConfig": {
+    "url": "https://midojobnawatvxhmhmoh.supabase.co/functions/v1/monitor-projects",
+    "schedule": "* * * * *",
+    "method": "POST",
+    "headers": {
+      "x-cron-key": "porta-cron-secure-2025",
+      "Content-Type": "application/json"
+    }
+  }
+}

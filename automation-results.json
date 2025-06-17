@@ -289,5 +289,580 @@
       "output": "[main 5a7bb58] Fix: Downgrade Tailwind CSS to v3 for Netlify compatibility\n Committer: Marc Schwyn <marcschwyn@MacBook-Pro-3.local>\nYour name and email address were configured automatically based\non your username and hostname. Please check that they are accurate.\nYou can suppress this message by setting them explicitly. Run the\nfollowing command and follow the instructions in your editor to edit\nyour configuration file:\n\n    git config --global --edit\n\nAfter doing this, you may fix the identity used for this commit with:\n\n    git commit --amend --reset-author\n\n 1 file changed, 1 insertion(+), 1 deletion(-)\n",
       "command": "git add package.json && git commit -m 'Fix: Downgrade Tailwind CSS to v3 for Netlify compatibility' && git push origin main"
     }
+  },
+  {
+    "timestamp": "2025-06-16T02:11:10.938Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node deploy-monitor-function.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      },
+      "description": "Deploy monitor-projects Edge Function"
+    },
+    "result": {
+      "error": "Command failed: node deploy-monitor-function.js\nBundling Function: monitor-projects\nfailed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?\nDocker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop\n❌ Deployment failed: Command failed: supabase functions deploy monitor-projects\nBundling Function: monitor-projects\nfailed to inspect docker image: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?\nDocker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop\n\n"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T02:18:27.805Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node deploy-monitor-function.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      },
+      "description": "Deploy monitor-projects Edge Function with Docker"
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Deploying monitor-projects Edge Function...\n\n❌ Supabase CLI not found. Using local binary...\n📦 Deploying function...\nDeployed Functions on project midojobnawatvxhmhmoh: monitor-projects\nYou can inspect your deployment in the Dashboard: https://supabase.com/dashboard/project/midojobnawatvxhmhmoh/functions\n\n✅ Function deployed successfully!\n",
+      "command": "node deploy-monitor-function.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T02:19:05.868Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node set-cron-secret.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      },
+      "description": "Set CRON_SECRET_KEY for monitor-projects function"
+    },
+    "result": {
+      "error": "Command failed: node set-cron-secret.js\n/bin/sh: supabase: command not found\n❌ Failed to set secret: Command failed: supabase secrets set CRON_SECRET_KEY=\"porta-cron-secure-2025\" --project-ref midojobnawatvxhmhmoh\n"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T02:19:39.425Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node set-cron-secret.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      },
+      "description": "Set CRON_SECRET_KEY with local CLI"
+    },
+    "result": {
+      "success": true,
+      "output": "🔐 Setting CRON_SECRET_KEY for monitor-projects function...\n\nSetting secret...\nFinished supabase secrets set.\n\n✅ Secret set successfully!\n   CRON_SECRET_KEY = porta-cron-secure-2025\n\n📝 Configuration saved to cron-config.json\n",
+      "command": "node set-cron-secret.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T02:24:58.143Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node setup-pg-cron.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      },
+      "description": "Attempt autonomous pg_cron setup"
+    },
+    "result": {
+      "error": "Command failed: node setup-pg-cron.js\n❌ Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY\n"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T02:37:09.186Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node setup-cronjob.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      },
+      "description": "Create cron job for porta monitoring"
+    },
+    "result": {
+      "success": true,
+      "output": "🕐 Automated cron-job.org Setup for Porta\n\n✅ Using API key from .env file\n\n🔄 Creating cron job...\n\n✅ Cron job created successfully!\n   Job ID: 6232905\n   Title: Porta - Monitor Crypto Projects\n   Schedule: Every minute\n\n🎉 Your monitoring is now automated!\n\n📝 Configuration saved to cronjob-config.json\n",
+      "command": "node setup-cronjob.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T02:44:59.107Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node deploy-monitor-function.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      },
+      "description": "Deploy updated monitor-projects function"
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Deploying monitor-projects Edge Function...\n\n❌ Supabase CLI not found. Using local binary...\n📦 Deploying function...\nDeployed Functions on project midojobnawatvxhmhmoh: monitor-projects\nYou can inspect your deployment in the Dashboard: https://supabase.com/dashboard/project/midojobnawatvxhmhmoh/functions\n\n✅ Function deployed successfully!\n",
+      "command": "node deploy-monitor-function.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T03:30:37.267Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node deploy-monitor-function.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      },
+      "description": "Deploy fixed monitor-projects function"
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Deploying monitor-projects Edge Function...\n\n❌ Supabase CLI not found. Using local binary...\n📦 Deploying function...\nDeployed Functions on project midojobnawatvxhmhmoh: monitor-projects\nYou can inspect your deployment in the Dashboard: https://supabase.com/dashboard/project/midojobnawatvxhmhmoh/functions\n\n✅ Function deployed successfully!\n",
+      "command": "node deploy-monitor-function.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T03:53:20.201Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node deploy-telegram-function.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "error": "Command failed: node deploy-telegram-function.js\nNo Supabase access token found. Please run setup first.\n"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T03:54:37.828Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node deploy-telegram-function.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Deploying Telegram notification Edge Function...\n\n❌ Supabase CLI not found. Using local binary...\n🔐 Setting TELEGRAM_BOT_TOKEN secret...\nFinished supabase secrets set.\n📦 Deploying function...\nDeployed Functions on project midojobnawatvxhmhmoh: send-telegram-notification\nYou can inspect your deployment in the Dashboard: https://supabase.com/dashboard/project/midojobnawatvxhmhmoh/functions\n\n✅ Telegram notification Edge Function deployed successfully!\nEndpoint: https://midojobnawatvxhmhmoh.supabase.co/functions/v1/send-telegram-notification\n",
+      "command": "node deploy-telegram-function.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T04:10:55.171Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node deploy-telegram-webhook.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Deploying Telegram webhook Edge Function...\n\n📦 Deploying function...\nDeployed Functions on project midojobnawatvxhmhmoh: telegram-webhook\nYou can inspect your deployment in the Dashboard: https://supabase.com/dashboard/project/midojobnawatvxhmhmoh/functions\n\n✅ Telegram webhook Edge Function deployed successfully!\nWebhook URL: https://midojobnawatvxhmhmoh.supabase.co/functions/v1/telegram-webhook\n\n🔗 Setting webhook with Telegram...\n✅ Webhook set successfully!\n\n🎉 Telegram bot is now ready to receive commands!\nTry sending /start to @porta_alerts_bot\n",
+      "command": "node deploy-telegram-webhook.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T04:12:24.616Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node deploy-monitor-function.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Deploying monitor-projects Edge Function...\n\n❌ Supabase CLI not found. Using local binary...\n📦 Deploying function...\nDeployed Functions on project midojobnawatvxhmhmoh: monitor-projects\nYou can inspect your deployment in the Dashboard: https://supabase.com/dashboard/project/midojobnawatvxhmhmoh/functions\n\n✅ Function deployed successfully!\n",
+      "command": "node deploy-monitor-function.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T04:28:19.033Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node deploy-telegram-webhook-no-auth.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Deploying Telegram webhook Edge Function (no auth)...\n\n📦 Deploying function without JWT verification...\nDeployed Functions on project midojobnawatvxhmhmoh: telegram-webhook\nYou can inspect your deployment in the Dashboard: https://supabase.com/dashboard/project/midojobnawatvxhmhmoh/functions\n\n✅ Telegram webhook Edge Function deployed!\nWebhook URL: https://midojobnawatvxhmhmoh.supabase.co/functions/v1/telegram-webhook\n\n🧹 Clearing pending updates...\n\n🔗 Setting webhook with Telegram...\n✅ Webhook set successfully!\n   Dropped pending updates to start fresh\n\n🎉 Telegram bot webhook is ready!\nTry sending /start to @porta_alerts_bot again\n",
+      "command": "node deploy-telegram-webhook-no-auth.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T05:35:53.496Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node deploy-mobile-app.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Deploying PortAlerts Mobile App to GitHub...\n\n1️⃣ Copying mobile app files...\n\n2️⃣ Initializing git repository...\nInitialized empty Git repository in /Users/marcschwyn/Desktop/projects/portalerts-mobile-temp/.git/\n\n3️⃣ Creating README...\n\n4️⃣ Creating Netlify configuration...\n\n5️⃣ Committing files...\n[main (root-commit) 2296042] Initial commit: PortAlerts mobile app\n Committer: Marc Schwyn <marcschwyn@MacBook-Pro-3.local>\nYour name and email address were configured automatically based\non your username and hostname. Please check that they are accurate.\nYou can suppress this message by setting them explicitly. Run the\nfollowing command and follow the instructions in your editor to edit\nyour configuration file:\n\n    git config --global --edit\n\nAfter doing this, you may fix the identity used for this commit with:\n\n    git commit --amend --reset-author\n\n 19 files changed, 1044 insertions(+)\n create mode 100644 .gitignore\n create mode 100644 README.md\n create mode 100644 netlify.toml\n create mode 100644 next.config.js\n create mode 100644 package.json\n create mode 100644 postcss.config.js\n create mode 100644 public/manifest.json\n create mode 100755 setup.sh\n create mode 100644 src/app/globals.css\n create mode 100644 src/app/layout.tsx\n create mode 100644 src/app/page.tsx\n create mode 100644 src/components/CryptoSearch.tsx\n create mode 100644 src/components/PremiumSection.tsx\n create mode 100644 src/components/ProjectList.tsx\n create mode 100644 src/components/ReferralSection.tsx\n create mode 100644 src/components/TelegramConnect.tsx\n create mode 100644 src/lib/api.ts\n create mode 100644 tailwind.config.js\n create mode 100644 tsconfig.json\n\n6️⃣ Creating GitHub repository...\n{\n  \"message\": \"Bad credentials\",\n  \"documentation_url\": \"https://docs.github.com/rest\",\n  \"status\": \"401\"\n}\n\n7️⃣ Pushing to GitHub...\n\n⚠️  Push failed. Manual steps:\n1. Create repo at: https://github.com/new\n2. Name it: portalerts-mobile\n3. Run: git remote add origin https://github.com/Masssa75/portalerts-mobile.git\n4. Run: git push -u origin main\n",
+      "command": "node deploy-mobile-app.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T05:38:32.363Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node deploy-api-functions.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Deploying API Edge Functions...\n\n1️⃣ Deploying api-auth function...\nDeployed Functions on project midojobnawatvxhmhmoh: api-auth\nYou can inspect your deployment in the Dashboard: https://supabase.com/dashboard/project/midojobnawatvxhmhmoh/functions\n\n2️⃣ Deploying api-projects function...\nDeployed Functions on project midojobnawatvxhmhmoh: api-projects\nYou can inspect your deployment in the Dashboard: https://supabase.com/dashboard/project/midojobnawatvxhmhmoh/functions\n\n3️⃣ Setting MOBILE_API_KEY secret...\nFinished supabase secrets set.\n\n✅ API functions deployed successfully!\n\n📝 API Endpoints:\n- Auth: https://midojobnawatvxhmhmoh.supabase.co/functions/v1/api-auth\n- Projects: https://midojobnawatvxhmhmoh.supabase.co/functions/v1/api-projects\n",
+      "command": "node deploy-api-functions.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T05:42:49.353Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node push-mobile-to-github.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Pushing mobile app to GitHub...\n\n📁 Checking mobile app directory...\ntotal 72\ndrwxr-xr-x  14 marcschwyn  staff   448 Jun 16 12:36 .\ndrwxr-xr-x  32 marcschwyn  staff  1024 Jun 16 12:42 ..\ndrwxr-xr-x  12 marcschwyn  staff   384 Jun 16 12:36 .git\n-rw-r--r--   1 marcschwyn  staff   280 Jun 16 12:35 .gitignore\n-rw-r--r--   1 marcschwyn  staff   579 Jun 16 12:35 README.md\n-rw-r--r--   1 marcschwyn  staff   309 Jun 16 12:35 netlify.toml\n-rw-r--r--   1 marcschwyn  staff   662 Jun 16 12:35 next.config.js\n-rw-r--r--   1 marcschwyn  staff   728 Jun 16 12:35 package.json\n-rw-r--r--   1 marcschwyn  staff    81 Jun 16 12:35 postcss.config.js\ndrwxr-xr-x   3 marcschwyn  staff    96 Jun 16 12:36 public\n-rwxr-xr-x   1 marcschwyn  staff   578 Jun 16 12:35 setup.sh\ndrwxr-xr-x   7 marcschwyn  staff   224 Jun 16 12:36 src\n-rw-r--r--   1 marcschwyn  staff   544 Jun 16 12:35 tailwind.config.js\n-rw-r--r--   1 marcschwyn  staff   678 Jun 16 12:35 tsconfig.json\n\n📤 Pushing to GitHub...\n\n📝 Manual steps needed:\n1. Create new repo at: https://github.com/new\n2. Name it: portalerts-mobile\n3. In terminal, run:\n   cd /Users/marcschwyn/Desktop/projects/portalerts-mobile-temp\n   git remote add origin https://github.com/Masssa75/portalerts-mobile.git\n   git push -u origin main\n",
+      "command": "node push-mobile-to-github.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T05:45:52.674Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node create-github-repo.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Creating GitHub repository via API...\n\nPlease create a personal access token at: https://github.com/settings/tokens\n",
+      "command": "node create-github-repo.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T05:47:20.733Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node create-repo-gh-cli.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Creating GitHub repository using gh CLI...\n\n🔐 Checking gh CLI authentication...\n\n❌ gh CLI not authenticated.\nPlease run: gh auth login\n",
+      "command": "node create-repo-gh-cli.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T05:48:55.748Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node create-github-repo-with-env.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Creating GitHub repository via API...\n\n✅ Repository created successfully!\n📎 URL: https://github.com/Masssa75/portalerts-mobile\n\n📤 Pushing code to GitHub...\nbranch 'main' set up to track 'origin/main'.\n\n✅ Successfully pushed to GitHub!\n📱 Repository: https://github.com/Masssa75/portalerts-mobile\n\n🔗 Netlify setup:\n1. Import \"portalerts-mobile\" from GitHub\n2. Domain: portalerts.xyz\n3. Environment variables:\n   NEXT_PUBLIC_API_URL=https://midojobnawatvxhmhmoh.supabase.co/functions/v1\n   NEXT_PUBLIC_API_KEY=mobile_app_key_here\n   NEXT_PUBLIC_TELEGRAM_BOT=porta_alerts_bot\n",
+      "command": "node create-github-repo-with-env.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T09:42:26.549Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node push-mobile-updates.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "📱 Pushing mobile app updates to GitHub...\n\n1️⃣ Copying updated files...\nCopying src/lib/api.ts...\nCopying src/store/userStore.ts...\n",
+      "command": "node push-mobile-updates.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T09:44:00.480Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node push-mobile-updates-v2.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "📱 Pushing mobile app updates to GitHub...\n\n1️⃣ Creating necessary directories...\n\n2️⃣ Copying updated files...\nCopying src/lib/api.ts...\nCopying src/store/userStore.ts...\nCopying src/app/page.tsx...\nCopying src/components/TelegramConnect.tsx...\nCopying src/components/ReferralSection.tsx...\n\n3️⃣ Committing changes...\n[main f5b2c06] Connect mobile app to backend APIs - Enable user auth, project persistence, and referrals\n Committer: Marc Schwyn <marcschwyn@MacBook-Pro-3.local>\nYour name and email address were configured automatically based\non your username and hostname. Please check that they are accurate.\nYou can suppress this message by setting them explicitly. Run the\nfollowing command and follow the instructions in your editor to edit\nyour configuration file:\n\n    git config --global --edit\n\nAfter doing this, you may fix the identity used for this commit with:\n\n    git commit --amend --reset-author\n\n 5 files changed, 282 insertions(+), 43 deletions(-)\n create mode 100644 src/store/userStore.ts\n\n4️⃣ Pushing to GitHub...\n\n✅ Updates pushed successfully!\n📱 Changes will auto-deploy on Netlify\n\n🔄 New features added:\n✅ User authentication with Telegram\n✅ Projects save to database\n✅ Referral system connected\n✅ User state persists across sessions\n\n⏳ Netlify will deploy in ~2-3 minutes\n",
+      "command": "node push-mobile-updates-v2.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T09:52:23.750Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node check-deploy-status.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🔍 Checking deployment status...\n\nChecking https://portalerts.xyz...\nStatus: 200 OK\n✅ Site is accessible\n\nChecking https://portalerts-mobile.netlify.app...\nStatus: 200 OK\n✅ Site is accessible\n\n📝 Common deployment failure reasons:\n1. Missing dependencies in package.json\n2. TypeScript errors\n3. Build command issues\n4. Environment variable problems\n\n💡 Check Netlify dashboard for detailed build logs\n",
+      "command": "node check-deploy-status.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T09:53:23.668Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node fix-mobile-deployment.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🔧 Fixing mobile app deployment issues...\n\n1️⃣ Creating fixed userStore without persist...\n\n2️⃣ Ensuring client components are marked...\n\n3️⃣ Committing fixes...\n[main f7ad7f9] Fix deployment: Remove zustand persist for SSR compatibility\n Committer: Marc Schwyn <marcschwyn@MacBook-Pro-3.local>\nYour name and email address were configured automatically based\non your username and hostname. Please check that they are accurate.\nYou can suppress this message by setting them explicitly. Run the\nfollowing command and follow the instructions in your editor to edit\nyour configuration file:\n\n    git config --global --edit\n\nAfter doing this, you may fix the identity used for this commit with:\n\n    git commit --amend --reset-author\n\n 1 file changed, 87 insertions(+), 99 deletions(-)\n\n4️⃣ Pushing fixes...\n\n✅ Fixes pushed!\n⏳ Netlify will rebuild in ~2-3 minutes\n\n🔧 Fixed issues:\n- Removed zustand persist middleware (SSR incompatible)\n- Simplified state management\n",
+      "command": "node fix-mobile-deployment.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T09:57:21.604Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node check-deploy-status.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🔍 Checking deployment status...\n\nChecking https://portalerts.xyz...\nStatus: 200 OK\n✅ Site is accessible\n\nChecking https://portalerts-mobile.netlify.app...\nStatus: 200 OK\n✅ Site is accessible\n\n📝 Common deployment failure reasons:\n1. Missing dependencies in package.json\n2. TypeScript errors\n3. Build command issues\n4. Environment variable problems\n\n💡 Check Netlify dashboard for detailed build logs\n",
+      "command": "node check-deploy-status.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T10:42:28.437Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node deploy-mobile-edge-functions.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "error": "Command failed: node deploy-mobile-edge-functions.js\n/bin/sh: supabase: command not found\n❌ Failed to deploy telegram-webhook: Command failed: supabase functions deploy telegram-webhook --no-verify-jwt\n"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T10:43:27.798Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node deploy-mobile-edge-functions.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Deploying Mobile App Edge Functions...\n\n📦 Deploying telegram-webhook...\nDeployed Functions on project midojobnawatvxhmhmoh: telegram-webhook\nYou can inspect your deployment in the Dashboard: https://supabase.com/dashboard/project/midojobnawatvxhmhmoh/functions\n✅ telegram-webhook deployed successfully!\n\n📦 Deploying api-auth...\nDeployed Functions on project midojobnawatvxhmhmoh: api-auth\nYou can inspect your deployment in the Dashboard: https://supabase.com/dashboard/project/midojobnawatvxhmhmoh/functions\n✅ api-auth deployed successfully!\n\n\n🔗 Setting Telegram webhook...\n🧹 Clearing pending updates...\n✅ Webhook set successfully!\n\n🎉 All Edge Functions deployed successfully!\n\n📱 Mobile app webhook integration complete!\n🔗 Mobile app: https://portalerts.xyz\n🤖 Telegram bot: @porta_alerts_bot\n",
+      "command": "node deploy-mobile-edge-functions.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T10:45:38.035Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node deploy-mobile-edge-functions.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Deploying Mobile App Edge Functions...\n\n📦 Deploying telegram-webhook...\nDeployed Functions on project midojobnawatvxhmhmoh: telegram-webhook\nYou can inspect your deployment in the Dashboard: https://supabase.com/dashboard/project/midojobnawatvxhmhmoh/functions\n✅ telegram-webhook deployed successfully!\n\n📦 Deploying api-auth...\nDeployed Functions on project midojobnawatvxhmhmoh: api-auth\nYou can inspect your deployment in the Dashboard: https://supabase.com/dashboard/project/midojobnawatvxhmhmoh/functions\n✅ api-auth deployed successfully!\n\n\n🔗 Setting Telegram webhook...\n🧹 Clearing pending updates...\n✅ Webhook set successfully!\n\n🎉 All Edge Functions deployed successfully!\n\n📱 Mobile app webhook integration complete!\n🔗 Mobile app: https://portalerts.xyz\n🤖 Telegram bot: @porta_alerts_bot\n",
+      "command": "node deploy-mobile-edge-functions.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T10:47:32.183Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node push-mobile-app-update.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "error": "Command failed: node push-mobile-app-update.js\nnode:internal/modules/cjs/loader:1404\n  throw err;\n  ^\n\nError: Cannot find module 'fs-extra'\nRequire stack:\n- /Users/marcschwyn/Desktop/projects/porta/push-mobile-app-update.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/marcschwyn/Desktop/projects/porta/push-mobile-app-update.js:3:12)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/marcschwyn/Desktop/projects/porta/push-mobile-app-update.js'\n  ]\n}\n\nNode.js v22.15.0\n"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T10:48:15.950Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node push-mobile-app-update.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Pushing Mobile App Updates...\n\n📦 Copying updated mobile app files...\n✅ Files copied\n\n📤 Committing and pushing changes...\n✅ Changes pushed to GitHub\n\n🔄 Triggering Netlify deployment...\nDeployment will complete in 2-3 minutes\n\n📱 Mobile app will be updated at: https://portalerts.xyz\n",
+      "command": "node push-mobile-app-update.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T11:09:22.601Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node setup-users-table-auto.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🔄 Setting up users table...\n\n📊 Checking if users table exists...\n❌ Users table does not exist.\n\n⚠️  MANUAL ACTION REQUIRED:\n\n1. Go to Supabase SQL Editor:\n   https://app.supabase.com/project/midojobnawatvxhmhmoh/sql/new\n\n2. Copy and paste the SQL from: create-users-table.sql\n3. Run the SQL to create all necessary tables\n\n📄 SQL file location: /Users/marcschwyn/Desktop/projects/porta/create-users-table.sql\n\n📝 Created quick setup guide: /Users/marcschwyn/Desktop/projects/porta/SETUP_USERS_TABLE.md\n\n⚠️  Manual setup required - see instructions above.\n",
+      "command": "node setup-users-table-auto.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T11:19:45.652Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node execute-sql-multi-method.js",
+        "cwd": "/Users/marcschwyn/desktop/projects/porta"
+      }
+    },
+    "result": {
+      "error": "Command failed: node execute-sql-multi-method.js\n/Users/marcschwyn/Desktop/projects/porta/execute-sql-multi-method.js:2\n#!/usr/bin/env node\n^\n\nSyntaxError: Invalid or unexpected token\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:170:5)\n    at node:internal/main/run_main_module:36:49\n\nNode.js v22.15.0\n"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T11:20:07.725Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node execute-sql-multi-method.js",
+        "cwd": "/Users/marcschwyn/desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🔍 Finding best method to execute SQL migration...\n\n🔧 Trying Supabase CLI...\n❌ Supabase CLI failed: Command failed: supabase --version\n\n🔧 Trying PostgreSQL psql...\n❌ PostgreSQL psql failed: Command failed: psql --version\n\n🔧 Trying Node.js pg client...\n❌ Node.js pg client not available\n\n❌ No SQL execution method available\n\n📋 Manual steps:\n1. Install Supabase CLI: npm install -g supabase\n2. Or install pg client: npm install pg\n3. Or run manually in Supabase Dashboard\n",
+      "command": "node execute-sql-multi-method.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T11:20:31.768Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "npm install pg",
+        "cwd": "/Users/marcschwyn/desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "\nadded 14 packages, and audited 202 packages in 2s\n\n44 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n",
+      "command": "npm install pg"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T11:21:05.859Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node run-migration-pg.js",
+        "cwd": "/Users/marcschwyn/desktop/projects/porta"
+      }
+    },
+    "result": {
+      "error": "Command failed: node run-migration-pg.js\n❌ Missing SUPABASE_DB_PASSWORD in .env file\n"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T11:22:03.888Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node execute-sql-via-edge-function.js",
+        "cwd": "/Users/marcschwyn/desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Alternative SQL execution approach...\n\n❌ Missing Supabase credentials\n\n📝 Manual execution required:\n1. Go to: https://app.supabase.com/project/midojobnawatvxhmhmoh/sql/new\n2. Copy contents from create-users-table.sql\n3. Click \"Run\"\n\n✅ Created migration-summary.txt for reference\n",
+      "command": "node execute-sql-via-edge-function.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T11:23:01.930Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node execute-sql-multi-method.js",
+        "cwd": "/Users/marcschwyn/desktop/projects/porta"
+      }
+    },
+    "result": {
+      "error": "Command failed: node execute-sql-multi-method.js\n/Users/marcschwyn/Desktop/projects/porta/execute-sql-multi-method.js:2\n#!/usr/bin/env node\n^\n\nSyntaxError: Invalid or unexpected token\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:170:5)\n    at node:internal/main/run_main_module:36:49\n\nNode.js v22.15.0\n"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T11:24:07.966Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node execute-sql-via-pg.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Executing SQL migration via PostgreSQL client...\n\n❌ Missing database credentials\nPlease set SUPABASE_DB_PASSWORD or DATABASE_URL in .env.local\n",
+      "command": "node execute-sql-via-pg.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T11:25:01.964Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node execute-sql-via-supabase-api.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🚀 Attempting SQL execution via Supabase API...\n\nℹ️  Note: Supabase REST API does not support DDL operations\nManual execution in SQL Editor is required\n",
+      "command": "node execute-sql-via-supabase-api.js"
+    }
+  },
+  {
+    "timestamp": "2025-06-16T11:54:33.396Z",
+    "command": {
+      "action": "execute",
+      "params": {
+        "command": "node check-existing-tables.js",
+        "cwd": "/Users/marcschwyn/Desktop/projects/porta"
+      }
+    },
+    "result": {
+      "success": true,
+      "output": "🔍 Checking existing database structure...\n\n📊 Checking users table...\n❌ users table does NOT exist\n\n📊 Checking projects table...\n✅ projects table EXISTS\n   Columns: [\n  'id',\n  'name',\n  'symbol',\n  'coingecko_id',\n  'twitter_handle',\n  'wallet_addresses',\n  'alert_threshold',\n  'created_at',\n  'updated_at',\n  'last_monitored',\n  'notification_threshold',\n  'telegram_connection_id'\n]\n\n📊 Checking referrals table...\n❌ referrals table does NOT exist\n\n📊 Checking telegram_connections table...\n✅ telegram_connections table EXISTS (from main porta app)\n\n📋 Summary:\nThe \"projects\" table that exists is from the MAIN porta app, not the mobile app.\nThis is why you got the \"user_id\" column error - it's a different schema.\n\n🔧 Solution: The fixed SQL will:\n1. Drop the existing projects table (from main app)\n2. Create new projects table with user_id (for mobile app)\n3. Create users and referrals tables\n\n⚠️  Note: This will remove the main porta app's projects data!\nIf you need to keep that data, we should use different table names.\n",
+      "command": "node check-existing-tables.js"
+    }
   }
 ]

@@ -1,1 +1,1 @@
-[]
+[{"action": "execute", "params": {"command": "node test-full-registration-flow.js", "cwd": "/Users/marcschwyn/Desktop/projects/porta"}}]
